@@ -1,0 +1,14 @@
+---
+import { TOPICS, workshopDate, type Workshop } from '../data/workshops';
+interface Props { workshop: Workshop }
+const { workshop } = Astro.props;
+---
+<article class:list={['workshop-card', `topic-${workshop.topic}`]} data-workshop data-topic={workshop.topic}>
+  <div class="workshop-art" aria-hidden="true"><i class="art-ring"></i><i class="art-block"></i><i class="art-line"></i><i class="art-dot"></i></div>
+  <div class="workshop-body">
+    <div class="card-meta"><span>{TOPICS[workshop.topic]}</span><span>{workshop.feeChf === 0 ? 'Kostenlos' : `CHF ${workshop.feeChf}`}</span></div>
+    <h3>{workshop.title}</h3>
+    <p>{workshop.description}</p>
+    <time datetime={workshop.startUtc}>{workshopDate(workshop.startUtc)} <span>· Zürich</span></time>
+  </div>
+</article>
