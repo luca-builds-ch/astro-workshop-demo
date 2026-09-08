@@ -5,48 +5,57 @@ import '../styles/global.css';
 const upcoming = upcomingWorkshops(workshops);
 ---
 <!doctype html>
-<html lang="de-CH">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Fiktive Atelier-Nord-Arbeitsprobe: ein WordPress-Workshopprogramm als statische Astro-Seite mit Themenfilter." />
-    <title>Atelier Nord — Astro-Portfolio-Demo</title>
+    <meta name="description" content="A fictional workshop programme built with Astro." />
+    <title>Atelier Nord — Workshops</title>
   </head>
   <body>
-    <a class="skip-link" href="#workshops">Zum Programm</a>
-    <div class="demo-ribbon"><span><i></i> Portfolio-Demo · Fiktive Werkstatt</span><a href="#arbeitsprobe">Zur Arbeitsprobe ↗</a></div>
+    <a class="skip-link" href="#workshops">Skip to workshops</a>
     <header class="site-header wrap">
-      <a class="brand" href="#"><span class="brand-mark" aria-hidden="true"><b></b><b></b><b></b><b></b></span>Atelier Nord<span class="brand-period">.</span></a>
-      <nav aria-label="Hauptnavigation"><a href="#workshops">Workshops</a><a href="#arbeitsprobe">Die Idee dahinter ↗</a></nav>
+      <a class="brand" href="#" aria-label="Atelier Nord home">Atelier Nord</a>
+      <nav aria-label="Main navigation"><a href="#workshops">Workshops</a><a href="#the-build">Implementation</a></nav>
     </header>
     <main>
       <section class="hero wrap" aria-labelledby="hero-title">
-        <div><p class="eyebrow">Ein Ort für neugierige Hände</p><h1 id="hero-title">Gute Dinge.<br /><em>Selbst gemacht.</em></h1><p class="hero-lead">Papier falten. Holz verstehen. Liebgewonnenes reparieren. Kleine Workshops mit Raum zum Ausprobieren.</p><a class="button" href="#workshops">Das Programm entdecken <span aria-hidden="true">↘</span></a><p class="hero-note">✳ Beispielprogramm einer erfundenen Werkstatt</p></div>
-        <div class="hero-visual" aria-hidden="true"><div class="paper-stack p-back"></div><div class="paper-stack p-front"><span class="paper-label">MACH MAL<br />WIEDER WAS.</span><div class="paper-circle"></div><span class="paper-number">01 / 06</span></div><div class="wood-disc"></div><div class="little-note">Neues lernen.<br />Mitnehmen.</div><span class="visual-caption">FORM. MATERIAL. IDEE.</span></div>
+        <div class="hero-heading"><h1 id="hero-title">Workshops in paper,<br /><span>wood and repair</span></h1></div>
+        <div class="hero-bottom"><p>Learn bookbinding, simple woodwork and practical repairs in small workshops.</p><a class="button" href="#workshops">View workshops</a></div>
+        <figure class="hero-visual"><img src="/atelier-material-hero.png" width="1672" height="941" alt="" fetchpriority="high" /></figure>
+        
       </section>
       <section class="program wrap" id="workshops" aria-labelledby="program-title">
-        <div class="section-heading"><div><p class="eyebrow">Das Beispielprogramm</p><h2 id="program-title">Zeit für etwas Neues.</h2></div><p>Bevorstehende Termine<br /><span>Europe/Zurich</span></p></div>
-        <div class="demo-controls"><div><span class="live-dot"></span><strong>Das gleiche Programm. Neu aufgebaut.</strong><small>Fester Demozeitpunkt: {workshopDate(DEMO_NOW)} · Zürich</small></div><span class="version-label">Astro-Version</span></div>
-        <form id="topic-filter" class="topic-filters" hidden>
-          <label for="topic">Thema auswählen</label>
-          <select id="topic" name="topic" aria-controls="workshop-grid empty-state">
-            <option value="all">Alle Workshops</option>
-            {Object.entries(TOPICS).map(([slug, label]) => <option value={slug}>{label}</option>)}
-            <option value="keramik">Keramik · demnächst</option>
-          </select>
-          <span id="filter-status" role="status" aria-live="polite" aria-atomic="true">{upcoming.length} Workshops im Programm</span>
+        <div class="section-heading"><div><h2 id="program-title">September workshops</h2></div><p>September 2026<br /><span>Europe/Zurich</span></p></div>
+        <form id="topic-filter" class="program-toolbar" hidden>
+          <div class="topic-select"><label for="topic">Topic</label>
+            <select id="topic" name="topic" aria-controls="workshop-grid empty-state">
+              <option value="all">All workshops</option>
+              {Object.entries(TOPICS).map(([slug, label]) => <option value={slug}>{label}</option>)}
+              <option value="keramik">Ceramics (no workshops)</option>
+            </select>
+          </div>
+          <span id="filter-status" role="status" aria-live="polite" aria-atomic="true">{upcoming.length} workshops in the programme</span>
         </form>
-        <noscript><p class="program-footnote">Hier sehen Sie alle kommenden Beispieltermine. Der Themenfilter benötigt JavaScript.</p></noscript>
+        <noscript><p class="program-footnote">All upcoming sample workshops are shown. The material filter requires JavaScript.</p></noscript>
         <div id="workshop-grid" class="workshop-grid">{upcoming.map((workshop) => <WorkshopCard workshop={workshop} />)}</div>
-        <div id="empty-state" class="schedule-empty" hidden><span aria-hidden="true">✳</span><h3>Noch kein Workshop zu diesem Thema.</h3><p>Wählen Sie ein anderes Thema oder entdecken Sie das ganze Beispielprogramm.</p><button type="button" id="reset-filter" class="button">Alle Workshops anzeigen <span aria-hidden="true">↗</span></button></div>
-        <p class="program-footnote">Alle Termine, Texte und Preise sind erfunden. Es gibt keine Buchung und keinen Verkauf.</p>
+        <div id="empty-state" class="schedule-empty" hidden><h3>No workshops scheduled</h3><p>Choose another topic or show all workshops.</p><button type="button" id="reset-filter" class="button">Show all workshops </button></div>
+        <p class="program-footnote">All workshops and fees are fictional.</p>
       </section>
-      <section class="case-study wrap" id="arbeitsprobe" aria-labelledby="case-title">
-        <div class="case-heading"><p class="eyebrow">Die Arbeitsprobe</p><h2 id="case-title">Vertraute Inhalte.<br />Eine neue Grundlage.</h2><p>Diese eigenständige Demo überträgt das eigene WordPress-Beispielprogramm nach Astro. Gestaltung, Texte und Termine bleiben erkennbar; die Seite wird als statisches HTML gebaut.</p></div>
-        <div class="case-steps"><article><span>01</span><div><h3>Inhalte übernehmen</h3><p>Sieben fiktive WordPress-Datensätze werden zu einer typisierten lokalen Sammlung.</p></div></article><article><span>02</span><div><h3>Ansicht in Komponenten gliedern</h3><p>Eine wiederverwendbare Astro-Karte stellt Titel, Thema, Preis und Ortszeit dar.</p></div></article><article><span>03</span><div><h3>Verhalten erhalten</h3><p>Sechs kommende Termine, ein Themenfilter und ein verständlicher Leerzustand. UTC-Speicherung und Anzeigezeit bleiben getrennt.</p></div></article></div>
+      <section class="case-study wrap" id="the-build" aria-labelledby="case-title">
+        <div class="case-heading"><h2 id="case-title">Astro implementation</h2><p>The same fictional workshop collection as the WordPress study, rebuilt as static HTML with Astro. Reusable components and a small material filter keep the page straightforward.</p><a class="text-link" href="https://github.com/luca-builds-ch/astro-workshop-demo">View source on GitHub</a></div>
+        <div class="case-detail">
+          <div class="comparison"><div><span class="eyebrow">The implementation</span><strong>WordPress content → Astro</strong></div><span class="version-label">Static page</span></div>
+          <div class="case-steps">
+            <article><span>01</span><div><h3>Content migration</h3><p>Seven fictional records were manually ported from the WordPress seed into typed local data. There is no live CMS connection.</p></div></article>
+            <article><span>02</span><div><h3>Static rendering</h3><p>All six upcoming workshops render at build time. JavaScript adds the material filter, empty state and reset control.</p></div></article>
+            <article><span>03</span><div><h3>Date and filter tests</h3><p>Three regression tests check selection, ordering, topic filters and daylight-saving boundaries. Times display explicitly in Europe/Zurich.</p></div></article>
+          </div>
+          <p class="clock-note">Fixed demonstration clock: {workshopDate(DEMO_NOW)} · Europe/Zurich.<br />This sample remains fixed when built on a later day.</p>
+        </div>
       </section>
     </main>
-    <footer class="site-footer wrap"><span class="footer-brand">Atelier Nord.</span><p>Fiktive Portfolio-Arbeitsprobe von Luca.<br />Keine Kundenreferenz · keine echten Veranstaltungen.</p><a href="#">Nach oben ↑</a></footer>
+    <footer class="site-footer wrap"><span class="footer-brand">Atelier Nord</span><p>Portfolio demonstration with fictional workshops. Booking is unavailable.</p><a href="#hero-title">Back to top</a></footer>
     <script>
       import { matchesTopic } from '../data/workshops';
       const form = document.querySelector<HTMLFormElement>('#topic-filter');
@@ -63,7 +72,7 @@ const upcoming = upcomingWorkshops(workshops);
             if (!card.hidden) count += 1;
           }
           empty.hidden = count !== 0;
-          status.textContent = count === 1 ? '1 Workshop im Programm' : `${count} Workshops im Programm`;
+          status.textContent = count === 1 ? '1 workshop in the programme' : count + ' workshops in the programme';
         };
         form.addEventListener('submit', (event) => event.preventDefault());
         select.addEventListener('change', filter);
