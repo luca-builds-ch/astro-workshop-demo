@@ -1,0 +1,76 @@
+---
+import WorkshopCard from '../components/WorkshopCard.astro';
+import { DEMO_NOW, TOPICS, upcomingWorkshops, workshopDate, workshops } from '../data/workshops';
+import '../styles/global.css';
+const upcoming = upcomingWorkshops(workshops);
+---
+<!doctype html>
+<html lang="de-CH">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Fiktive Atelier-Nord-Arbeitsprobe: ein WordPress-Workshopprogramm als statische Astro-Seite mit Themenfilter." />
+    <title>Atelier Nord — Astro-Portfolio-Demo</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#workshops">Zum Programm</a>
+    <div class="demo-ribbon"><span><i></i> Portfolio-Demo · Fiktive Werkstatt</span><a href="#arbeitsprobe">Zur Arbeitsprobe ↗</a></div>
+    <header class="site-header wrap">
+      <a class="brand" href="#"><span class="brand-mark" aria-hidden="true"><b></b><b></b><b></b><b></b></span>Atelier Nord<span class="brand-period">.</span></a>
+      <nav aria-label="Hauptnavigation"><a href="#workshops">Workshops</a><a href="#arbeitsprobe">Die Idee dahinter ↗</a></nav>
+    </header>
+    <main>
+      <section class="hero wrap" aria-labelledby="hero-title">
+        <div><p class="eyebrow">Ein Ort für neugierige Hände</p><h1 id="hero-title">Gute Dinge.<br /><em>Selbst gemacht.</em></h1><p class="hero-lead">Papier falten. Holz verstehen. Liebgewonnenes reparieren. Kleine Workshops mit Raum zum Ausprobieren.</p><a class="button" href="#workshops">Das Programm entdecken <span aria-hidden="true">↘</span></a><p class="hero-note">✳ Beispielprogramm einer erfundenen Werkstatt</p></div>
+        <div class="hero-visual" aria-hidden="true"><div class="paper-stack p-back"></div><div class="paper-stack p-front"><span class="paper-label">MACH MAL<br />WIEDER WAS.</span><div class="paper-circle"></div><span class="paper-number">01 / 06</span></div><div class="wood-disc"></div><div class="little-note">Neues lernen.<br />Mitnehmen.</div><span class="visual-caption">FORM. MATERIAL. IDEE.</span></div>
+      </section>
+      <section class="program wrap" id="workshops" aria-labelledby="program-title">
+        <div class="section-heading"><div><p class="eyebrow">Das Beispielprogramm</p><h2 id="program-title">Zeit für etwas Neues.</h2></div><p>Bevorstehende Termine<br /><span>Europe/Zurich</span></p></div>
+        <div class="demo-controls"><div><span class="live-dot"></span><strong>Das gleiche Programm. Neu aufgebaut.</strong><small>Fester Demozeitpunkt: {workshopDate(DEMO_NOW)} · Zürich</small></div><span class="version-label">Astro-Version</span></div>
+        <form id="topic-filter" class="topic-filters" hidden>
+          <label for="topic">Thema auswählen</label>
+          <select id="topic" name="topic" aria-controls="workshop-grid empty-state">
+            <option value="all">Alle Workshops</option>
+            {Object.entries(TOPICS).map(([slug, label]) => <option value={slug}>{label}</option>)}
+            <option value="keramik">Keramik · demnächst</option>
+          </select>
+          <span id="filter-status" role="status" aria-live="polite" aria-atomic="true">{upcoming.length} Workshops im Programm</span>
+        </form>
+        <noscript><p class="program-footnote">Hier sehen Sie alle kommenden Beispieltermine. Der Themenfilter benötigt JavaScript.</p></noscript>
+        <div id="workshop-grid" class="workshop-grid">{upcoming.map((workshop) => <WorkshopCard workshop={workshop} />)}</div>
+        <div id="empty-state" class="schedule-empty" hidden><span aria-hidden="true">✳</span><h3>Noch kein Workshop zu diesem Thema.</h3><p>Wählen Sie ein anderes Thema oder entdecken Sie das ganze Beispielprogramm.</p><button type="button" id="reset-filter" class="button">Alle Workshops anzeigen <span aria-hidden="true">↗</span></button></div>
+        <p class="program-footnote">Alle Termine, Texte und Preise sind erfunden. Es gibt keine Buchung und keinen Verkauf.</p>
+      </section>
+      <section class="case-study wrap" id="arbeitsprobe" aria-labelledby="case-title">
+        <div class="case-heading"><p class="eyebrow">Die Arbeitsprobe</p><h2 id="case-title">Vertraute Inhalte.<br />Eine neue Grundlage.</h2><p>Diese eigenständige Demo überträgt das eigene WordPress-Beispielprogramm nach Astro. Gestaltung, Texte und Termine bleiben erkennbar; die Seite wird als statisches HTML gebaut.</p></div>
+        <div class="case-steps"><article><span>01</span><div><h3>Inhalte übernehmen</h3><p>Sieben fiktive WordPress-Datensätze werden zu einer typisierten lokalen Sammlung.</p></div></article><article><span>02</span><div><h3>Ansicht in Komponenten gliedern</h3><p>Eine wiederverwendbare Astro-Karte stellt Titel, Thema, Preis und Ortszeit dar.</p></div></article><article><span>03</span><div><h3>Verhalten erhalten</h3><p>Sechs kommende Termine, ein Themenfilter und ein verständlicher Leerzustand. UTC-Speicherung und Anzeigezeit bleiben getrennt.</p></div></article></div>
+      </section>
+    </main>
+    <footer class="site-footer wrap"><span class="footer-brand">Atelier Nord.</span><p>Fiktive Portfolio-Arbeitsprobe von Luca.<br />Keine Kundenreferenz · keine echten Veranstaltungen.</p><a href="#">Nach oben ↑</a></footer>
+    <script>
+      import { matchesTopic } from '../data/workshops';
+      const form = document.querySelector<HTMLFormElement>('#topic-filter');
+      const select = document.querySelector<HTMLSelectElement>('#topic');
+      const status = document.querySelector<HTMLElement>('#filter-status');
+      const empty = document.querySelector<HTMLElement>('#empty-state');
+      const reset = document.querySelector<HTMLButtonElement>('#reset-filter');
+      const cards = [...document.querySelectorAll<HTMLElement>('[data-workshop]')];
+      if (form && select && status && empty && reset) {
+        const filter = () => {
+          let count = 0;
+          for (const card of cards) {
+            card.hidden = !matchesTopic(card.dataset['topic'] ?? '', select.value);
+            if (!card.hidden) count += 1;
+          }
+          empty.hidden = count !== 0;
+          status.textContent = count === 1 ? '1 Workshop im Programm' : `${count} Workshops im Programm`;
+        };
+        form.addEventListener('submit', (event) => event.preventDefault());
+        select.addEventListener('change', filter);
+        reset.addEventListener('click', () => { select.value = 'all'; filter(); select.focus(); });
+        filter();
+        form.hidden = false;
+      }
+    </script>
+  </body>
+</html>
