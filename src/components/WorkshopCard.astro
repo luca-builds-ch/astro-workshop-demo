@@ -2,13 +2,22 @@
 import { TOPICS, workshopDate, type Workshop } from '../data/workshops';
 interface Props { workshop: Workshop }
 const { workshop } = Astro.props;
+const photographs: Record<string, { file: string; alt: string }> = {
+  notizbuch: { file: 'handmade-notebook.png', alt: 'Hand-bound notebook with exposed linen-thread stitching' },
+  reparieren: { file: 'clothing-repair.png', alt: 'A stitched fabric patch with a button, needle and thread' },
+  stiftehalter: { file: 'wood-pencil-holder.png', alt: 'A wooden pencil holder with two pencils beside sandpaper' },
+  falten: { file: 'paper-folding.png', alt: 'A paper crane, paper boat and unfolded sheet on a table' },
+  lieblingsstueck: { file: 'wood-restoration.png', alt: 'A partially sanded wooden box with sandpaper and a scraper' },
+  ablage: { file: 'wooden-tray.png', alt: 'A shallow wooden tray on a workbench' },
+};
+const photograph = photographs[workshop.id];
 ---
-<article class:list={['workshop-card', `topic-${workshop.topic}`]} data-workshop data-topic={workshop.topic}>
-  <div class="workshop-art" aria-hidden="true"><i class="art-ring"></i><i class="art-block"></i><i class="art-line"></i><i class="art-dot"></i></div>
+<article class:list={['workshop-card', 'topic-' + workshop.topic]} data-workshop data-topic={workshop.topic}>
+  <div class="workshop-art">{photograph && <img src={'/workshops/' + photograph.file} alt={photograph.alt} width="1448" height="1086" loading="lazy" decoding="async" />}</div>
   <div class="workshop-body">
-    <div class="card-meta"><span>{TOPICS[workshop.topic]}</span><span>{workshop.feeChf === 0 ? 'Kostenlos' : `CHF ${workshop.feeChf}`}</span></div>
+    <div class="card-meta"><span>{TOPICS[workshop.topic]}</span><span>{workshop.feeChf === 0 ? 'Free' : 'CHF ' + workshop.feeChf}</span></div>
     <h3>{workshop.title}</h3>
     <p>{workshop.description}</p>
-    <time datetime={workshop.startUtc}>{workshopDate(workshop.startUtc)} <span>· Zürich</span></time>
+    <time datetime={workshop.startUtc}>{workshopDate(workshop.startUtc)}<span>Europe/Zurich</span></time>
   </div>
 </article>
