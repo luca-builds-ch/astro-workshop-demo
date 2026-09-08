@@ -1,5 +1,7 @@
 # Atelier Nord — WordPress content rebuilt with Astro
 
+[View the live demo](https://luca-builds-ch.github.io/astro-workshop-demo/)
+
 A static Astro implementation of the content and layout from our [WordPress shortcode sample](https://github.com/luca-builds-ch/wordpress-shortcode-demo). Seven records produce six upcoming workshops at build time; JavaScript adds material filtering, an empty state and reset without making the content depend on client-side rendering.
 
 Atelier Nord is an independent portfolio exercise with fictional events, fees and generated imagery, not a customer project. The page has no booking, payment flow, external API or live CMS connection.
@@ -33,7 +35,7 @@ pnpm build
 pnpm preview
 ```
 
-Open `http://127.0.0.1:8787/astro-workshop-demo/`. The preview script binds only to `127.0.0.1`. The configured `/astro-workshop-demo/` base path applies to both local preview and the prepared GitHub Pages deployment. `pnpm build` runs `astro check` first and produces the static files in `dist/`.
+Open `http://127.0.0.1:8787/astro-workshop-demo/`. The preview script binds only to `127.0.0.1`. The configured `/astro-workshop-demo/` base path applies to both local preview and GitHub Pages. `pnpm build` runs `astro check` first and produces the static files in `dist/`.
 
 `pnpm-workspace.yaml` permits the install script for exactly `esbuild@0.28.2`, required by the pinned build toolchain. Other dependency build scripts remain subject to pnpm's default approval policy. Review and update this exact-version rule when upgrading esbuild. [pnpm build settings](https://pnpm.io/settings/build#allowbuilds).
 
@@ -44,7 +46,7 @@ pnpm run preview:status
 pnpm run preview:stop
 ```
 
-For development, use `pnpm dev` and stop it with Ctrl+C. The GitHub Pages workflow is prepared; a public live deployment has not yet been verified. Building starts a local esbuild subprocess.
+For development, use `pnpm dev` and stop it with Ctrl+C. GitHub Pages builds and deploys this repository through the included workflow. Building starts a local esbuild subprocess.
 
 Pinned toolchain: Astro **7.3.1**, `@astrojs/check` **0.9.10**, TypeScript **6.0.3**. TypeScript 6 is deliberate: this Astro checking tool currently requires the JavaScript compiler API that TypeScript 7 does not expose.
 
@@ -69,7 +71,9 @@ Executed on 8 September 2026 with Node **24.19.0** on Windows:
 
 The tests cover chronological selection and the inclusive cutoff, topic filters and empty results, UTC input validation, and the repeated local minute at Zurich's autumn clock change. They use Node's built-in runner with `--test-isolation=none` and do not modify source records or use the network.
 
-The current English page passed browser review at 1440px desktop and 375px mobile: all six photographs loaded without horizontal overflow. Paper displayed two matching workshops; Ceramics displayed the empty state; reset restored six workshops and returned focus to the topic selector. The screenshots above are actual browser captures of this revision.
+The current English page passed browser review at 1440px desktop and 375px mobile: all six photographs loaded without horizontal overflow. Paper displayed two matching workshops; Ceramics displayed the empty state; reset restored six workshops and returned focus to the topic selector. The screenshots below are actual browser captures of this revision.
+
+The public GitHub Pages deployment was also checked on 8 September 2026: all seven images loaded at the correct project paths, Paper showed two matching workshops, Ceramics showed the empty state, and reset restored six workshops and focused the topic selector. No horizontal overflow was found. [Successful build and deployment](https://github.com/luca-builds-ch/astro-workshop-demo/actions/runs/34273139527) for commit `5ac18514c4487f2584c1f6bbed9517e5d96ceba9`.
 
 ## Views
 
