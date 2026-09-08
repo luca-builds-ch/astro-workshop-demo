@@ -1,7 +1,7 @@
 export const TOPICS = {
-  papier: 'Papier',
-  holz: 'Holz',
-  reparieren: 'Reparieren',
+  papier: 'Paper',
+  holz: 'Wood',
+  reparieren: 'Repair',
 } as const;
 
 export interface Workshop {
@@ -17,13 +17,13 @@ export interface Workshop {
 export const DEMO_NOW = '2026-09-08T16:30:00Z';
 export const DISPLAY_ZONE = 'Europe/Zurich';
 export const workshops: readonly Workshop[] = [
-  { id: 'notizbuch', title: 'Papier mit Charakter', description: 'Ein kleines Notizbuch binden — vom ersten Falz bis zur letzten Naht.', topic: 'papier', startUtc: '2026-09-08T17:00:00Z', feeChf: 35 },
-  { id: 'reparieren', title: 'Reparieren statt ersetzen', description: 'Knöpfe, Nähte und kleine Alltagsdinge: gemeinsam wieder brauchbar machen.', topic: 'reparieren', startUtc: '2026-09-08T17:45:00Z', feeChf: 0 },
-  { id: 'stiftehalter', title: 'Holz, ganz unkompliziert', description: 'Ein schlichter Stiftehalter, selbst geschliffen und von Hand geölt.', topic: 'holz', startUtc: '2026-09-09T16:30:00Z', feeChf: 45 },
-  { id: 'falten', title: 'Falten mit Ruhe', description: 'Aus einem Blatt Papier werden Formen mit Ecken, Kanten und Persönlichkeit.', topic: 'papier', startUtc: '2026-09-10T16:30:00Z', feeChf: 25 },
-  { id: 'lieblingsstueck', title: 'Lieblingsstück gerettet', description: 'Einem alten Holzgegenstand mit einfachen Mitteln neues Leben geben.', topic: 'reparieren', startUtc: '2026-09-11T16:30:00Z', feeChf: 30 },
-  { id: 'ablage', title: 'Ein Platz für Kleinigkeiten', description: 'Eine kleine Ablage bauen. Material verstehen und Werkzeuge kennenlernen.', topic: 'holz', startUtc: '2026-09-13T16:30:00Z', feeChf: 55 },
-  { id: 'vergangen', title: 'Vergangener Beispieltermin', description: 'Dieser abgeschlossene Workshop darf im kommenden Programm nicht erscheinen.', topic: 'papier', startUtc: '2026-09-08T16:29:00Z', feeChf: 15 },
+  { id: 'notizbuch', title: 'Hand-bound notebook', description: 'Fold, stitch and bind a small notebook with paper and linen thread.', topic: 'papier', startUtc: '2026-09-08T17:00:00Z', feeChf: 35 },
+  { id: 'reparieren', title: 'Clothing repairs', description: 'Replace a button and mend a torn seam with a needle and thread.', topic: 'reparieren', startUtc: '2026-09-08T17:45:00Z', feeChf: 0 },
+  { id: 'stiftehalter', title: 'Wooden pencil holder', description: 'Shape, sand and oil a simple wooden pencil holder by hand.', topic: 'holz', startUtc: '2026-09-09T16:30:00Z', feeChf: 45 },
+  { id: 'falten', title: 'Paper folding', description: 'Learn basic folds to make paper boats and cranes.', topic: 'papier', startUtc: '2026-09-10T16:30:00Z', feeChf: 25 },
+  { id: 'lieblingsstueck', title: 'Wood restoration', description: 'Sand and refinish a small wooden object.', topic: 'reparieren', startUtc: '2026-09-11T16:30:00Z', feeChf: 30 },
+  { id: 'ablage', title: 'Wooden tray', description: 'Build a small tray while learning about materials and hand tools.', topic: 'holz', startUtc: '2026-09-13T16:30:00Z', feeChf: 55 },
+  { id: 'vergangen', title: 'A past sample workshop', description: 'This completed workshop must not appear in the upcoming programme.', topic: 'papier', startUtc: '2026-09-08T16:29:00Z', feeChf: 15 },
 ];
 
 export function utcInstant(value: string): number {
@@ -52,8 +52,8 @@ export function upcomingWorkshops(
 }
 
 export function workshopDate(value: string): string {
-  return new Intl.DateTimeFormat('de-CH', {
-    timeZone: DISPLAY_ZONE, day: '2-digit', month: '2-digit', year: 'numeric',
+  return new Intl.DateTimeFormat('en-GB', {
+    timeZone: DISPLAY_ZONE, day: 'numeric', month: 'short', year: 'numeric',
     hour: '2-digit', minute: '2-digit', hourCycle: 'h23',
   }).format(utcInstant(value));
 }
