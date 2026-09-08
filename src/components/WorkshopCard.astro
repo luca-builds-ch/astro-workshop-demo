@@ -13,7 +13,7 @@ const photographs: Record<string, { file: string; alt: string }> = {
 const photograph = photographs[workshop.id];
 ---
 <article class:list={['workshop-card', 'topic-' + workshop.topic]} data-workshop data-topic={workshop.topic}>
-  <div class="workshop-art">{photograph && <img src={'/workshops/' + photograph.file} alt={photograph.alt} width="1448" height="1086" loading="lazy" decoding="async" />}</div>
+  <div class="workshop-art">{photograph && <img src={import.meta.env.BASE_URL + 'workshops/' + photograph.file} alt={photograph.alt} width="1448" height="1086" loading="lazy" decoding="async" />}</div>
   <div class="workshop-body">
     <div class="card-meta"><span>{TOPICS[workshop.topic]}</span><span>{workshop.feeChf === 0 ? 'Free' : 'CHF ' + workshop.feeChf}</span></div>
     <h3>{workshop.title}</h3>
