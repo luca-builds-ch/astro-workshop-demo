@@ -27,13 +27,15 @@ Dates are compared as actual instants and displayed in `Europe/Zurich`; sorting 
 Prerequisites: **Node.js 24** and **pnpm 11.19.0**. Astro and the checking tools are project dependencies; no globally installed Astro is needed.
 
 ```sh
-pnpm install --frozen-lockfile --ignore-scripts --store-dir .pnpm-store
+pnpm install --frozen-lockfile --store-dir .pnpm-store
 pnpm test
 pnpm build
 pnpm preview
 ```
 
 Open `http://127.0.0.1:8787/astro-workshop-demo/`. The preview script binds only to `127.0.0.1`. The configured `/astro-workshop-demo/` base path applies to both local preview and the prepared GitHub Pages deployment. `pnpm build` runs `astro check` first and produces the static files in `dist/`.
+
+`pnpm-workspace.yaml` permits the install script for exactly `esbuild@0.28.2`, required by the pinned build toolchain. Other dependency build scripts remain subject to pnpm's default approval policy. Review and update this exact-version rule when upgrading esbuild. [pnpm build settings](https://pnpm.io/settings/build#allowbuilds).
 
 Astro 7 starts preview as a background service. From this project directory:
 
@@ -63,6 +65,7 @@ Executed on 8 September 2026 with Node **24.19.0** on Windows:
 - `pnpm test`: **3 passing tests** against the actual data and functions used by the Astro source.
 - `pnpm build`: Astro diagnostics **0 errors, 0 warnings, 0 hints**; successful static build of one page.
 - HTTP checks: **200** for the page, hero and six workshop photographs; six rendered rows and correct title/photo/alt associations.
+- Clean pnpm 11.19.0 installation check: the exact-version esbuild approval passed an offline install with the frozen lockfile, followed by all three tests and the static build. Without that approval, the same fresh installation reproduced `ERR_PNPM_IGNORED_BUILDS`.
 
 The tests cover chronological selection and the inclusive cutoff, topic filters and empty results, UTC input validation, and the repeated local minute at Zurich's autumn clock change. They use Node's built-in runner with `--test-isolation=none` and do not modify source records or use the network.
 
@@ -76,7 +79,7 @@ The current English page passed browser review at 1440px desktop and 375px mobil
 
 ## Publish manifest
 
-Publish only these **24 files**, including the deployment workflow, reviewed browser screenshots and locally served imagery:
+Publish only these **25 files**, including the deployment workflow, reviewed browser screenshots and locally served imagery:
 
 ```text
 .gitignore
@@ -84,6 +87,7 @@ Publish only these **24 files**, including the deployment workflow, reviewed bro
 astro.config.mjs
 package.json
 pnpm-lock.yaml
+pnpm-workspace.yaml
 tsconfig.json
 README.md
 LICENSE
